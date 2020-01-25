@@ -473,7 +473,7 @@ public class RNTrackPlayer: RCTEventEmitter {
     @objc(stop:rejecter:)
     public func stop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         print("Stopping playback")
-        player.stop()
+        player.pause()
         resolve(NSNull())
     }
     
