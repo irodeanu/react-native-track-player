@@ -211,31 +211,18 @@ public class Track {
 
         switch(type) {
             case DASH:
-                return createDashSource(ds);
+                return new DashMediaSource.Factory(new DefaultDashChunkSource.Factory(ds), ds)
+                        .createMediaSource(uri);
             case HLS:
-                return createHlsSource(ds);
+                return new HlsMediaSource.Factory(ds)
+                        .createMediaSource(uri);
             case SMOOTH_STREAMING:
-                return createSsSource(ds);
+                return new SsMediaSource.Factory(new DefaultSsChunkSource.Factory(ds), ds)
+                        .createMediaSource(uri);
             default:
                 return new ProgressiveMediaSource.Factory(ds, new DefaultExtractorsFactory()
                         .setConstantBitrateSeekingEnabled(true))
                         .createMediaSource(uri);
         }
     }
-
-    private MediaSource createDashSource(DataSource.Factory factory) {
-        return new DashMediaSource.Factory(new DefaultDashChunkSource.Factory(factory), factory)
-                .createMediaSource(uri);
-    }
-
-    private MediaSource createHlsSource(DataSource.Factory factory) {
-        return new HlsMediaSource.Factory(factory)
-                .createMediaSource(uri);
-    }
-
-    private MediaSource createSsSource(DataSource.Factory factory) {
-        return new SsMediaSource.Factory(new DefaultSsChunkSource.Factory(factory), factory)
-                .createMediaSource(uri);
-    }
-
 }
